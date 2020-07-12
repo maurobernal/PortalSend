@@ -3,16 +3,47 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<!-- ======= Section ======= -->
+<section id="Index" class="about">
+    <div class="container">
 
-@Newtonsoft.Json.JsonConvert.SerializeObject(ViewData["Resultado1"]);
+        <div class="section-title">
+            <h2>About Us</h2>
+        </div>
 
+        <div class="row">
+            <div class="col-lg-6 order-1 order-lg-2">
+                <img src="assets/img/about-img.jpg" class="img-fluid" alt="">
+            </div>
+            <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1">
+                <h3>Voluptatem dignissimos provident quasi corporis voluptates sit assumenda.</h3>
+                <p class="font-italic">
+                    <input id="datepicker" value="10/10/2011" title="datepicker" style="width: 100%" />
 
-@Newtonsoft.Json.JsonConvert.SerializeObject(ViewData["Resultado2"]);
+                </p>
+            </div>
+        </div>
 
-@Newtonsoft.Json.JsonConvert.SerializeObject(ViewData["Resultado3"]);
-@Newtonsoft.Json.JsonConvert.SerializeObject(ViewData["Resultado4"]);
-@Newtonsoft.Json.JsonConvert.SerializeObject(ViewData["Resultado5"]);
-@Newtonsoft.Json.JsonConvert.SerializeObject(ViewData["Resultado6"]);
+    </div>
+</section><!-- End Section -->
 
+<script>
+    $(document).ready(function () {
+        // create DatePicker from input HTML element
+        $("#datepicker").kendoDatePicker();
 
+        $("#monthpicker").kendoDatePicker({
+            // defines the start view
+            start: "year",
+
+            // defines when the calendar should return date
+            depth: "year",
+
+            // display month and year in the input
+            format: "MMMM yyyy",
+
+            // specifies that DateInput is used for masking the input element
+            dateInput: true
+        });
+    });
+</script>
