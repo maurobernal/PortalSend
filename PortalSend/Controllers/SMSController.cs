@@ -20,5 +20,7 @@ namespace PortalSend.Controllers
             ViewData["Resultado6"] = SynWayAPI_models.EnvioSMS(SynWayAPI_models.Envios_Types.SendSMS, "2616142278", "1", "prueba:" + DateTime.Now.ToShortTimeString());
             return View();
         }
+
+        
     }
 }
