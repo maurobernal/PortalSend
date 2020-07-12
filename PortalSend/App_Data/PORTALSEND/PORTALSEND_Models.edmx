@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="PortalSend_Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Mensajes">
+          <Key>
+            <PropertyRef Name="men_id" />
+          </Key>
+          <Property Name="men_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="men_phone" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="men_fecha" Type="datetime" Nullable="false" />
+          <Property Name="men_estado" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="men_cuerpo" Type="varchar" MaxLength="300" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Template">
+          <Key>
+            <PropertyRef Name="tem_id" />
+          </Key>
+          <Property Name="tem_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tem_titulo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="tem_cuerpo" Type="varchar" MaxLength="300" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="PortalSend_ModelStoreContainer">
+          <EntitySet Name="Mensajes" EntityType="Self.Mensajes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Template" EntityType="Self.Template" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PortalSend_Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Mensajes">
+          <Key>
+            <PropertyRef Name="men_id" />
+          </Key>
+          <Property Name="men_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="men_phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="men_fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="men_estado" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="men_cuerpo" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Template">
+          <Key>
+            <PropertyRef Name="tem_id" />
+          </Key>
+          <Property Name="tem_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tem_titulo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="tem_cuerpo" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="PortalSend_Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Mensajes" EntityType="Self.Mensajes" />
+          <EntitySet Name="Template" EntityType="Self.Template" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PortalSend_ModelStoreContainer" CdmEntityContainer="PortalSend_Entities">
+          <EntitySetMapping Name="Mensajes">
+            <EntityTypeMapping TypeName="PortalSend_Model.Mensajes">
+              <MappingFragment StoreEntitySet="Mensajes">
+                <ScalarProperty Name="men_id" ColumnName="men_id" />
+                <ScalarProperty Name="men_phone" ColumnName="men_phone" />
+                <ScalarProperty Name="men_fecha" ColumnName="men_fecha" />
+                <ScalarProperty Name="men_estado" ColumnName="men_estado" />
+                <ScalarProperty Name="men_cuerpo" ColumnName="men_cuerpo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Template">
+            <EntityTypeMapping TypeName="PortalSend_Model.Template">
+              <MappingFragment StoreEntitySet="Template">
+                <ScalarProperty Name="tem_id" ColumnName="tem_id" />
+                <ScalarProperty Name="tem_titulo" ColumnName="tem_titulo" />
+                <ScalarProperty Name="tem_cuerpo" ColumnName="tem_cuerpo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
