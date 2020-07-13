@@ -5,13 +5,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
-using PortalSend.Helpers;
+
 using PortalSend.Models;
 
 namespace PortalSend.Controllers
 {
     public class FileUploadController : Controller
     {
+        /*
         FilesHelper filesHelper;
         String tempPath = "~/somefiles/";
         String serverMapPath = "~/Files/somefiles/";
@@ -27,10 +28,7 @@ namespace PortalSend.Controllers
             filesHelper = new FilesHelper(DeleteURL, DeleteType, StorageRoot, UrlBase, tempPath, serverMapPath);
         }
 
-        public ActionResult Index()
-        {
-            return View();
-        }
+      
         public ActionResult Show()
         {
             JsonFiles ListOfFiles = filesHelper.GetFileList();
@@ -79,5 +77,16 @@ namespace PortalSend.Controllers
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
 
+        */
+
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+        public ActionResult SubirArchivo(HttpPostedFileBase file)
+        {
+            return View(); 
+        }
     }
 }
