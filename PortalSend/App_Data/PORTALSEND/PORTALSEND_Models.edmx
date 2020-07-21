@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="PortalSend_Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="PortalSend_Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Mensajes">
           <Key>
             <PropertyRef Name="men_id" />
@@ -14,6 +14,10 @@
           <Property Name="men_fecha" Type="datetime" Nullable="false" />
           <Property Name="men_estado" Type="varchar" MaxLength="4" Nullable="false" />
           <Property Name="men_cuerpo" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="men_cant" Type="int" Nullable="false" />
+          <Property Name="men_fechamodif" Type="datetime" Nullable="false" />
+          <Property Name="men_lote" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="men_titular" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Template">
           <Key>
@@ -27,8 +31,7 @@
           <EntitySet Name="Mensajes" EntityType="Self.Mensajes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Template" EntityType="Self.Template" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PortalSend_Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -41,6 +44,10 @@
           <Property Name="men_fecha" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="men_estado" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="men_cuerpo" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="men_cant" Type="Int32" Nullable="false" />
+          <Property Name="men_fechamodif" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="men_lote" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="men_titular" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Template">
           <Key>
@@ -63,6 +70,10 @@
           <EntitySetMapping Name="Mensajes">
             <EntityTypeMapping TypeName="PortalSend_Model.Mensajes">
               <MappingFragment StoreEntitySet="Mensajes">
+                <ScalarProperty Name="men_titular" ColumnName="men_titular" />
+                <ScalarProperty Name="men_lote" ColumnName="men_lote" />
+                <ScalarProperty Name="men_fechamodif" ColumnName="men_fechamodif" />
+                <ScalarProperty Name="men_cant" ColumnName="men_cant" />
                 <ScalarProperty Name="men_id" ColumnName="men_id" />
                 <ScalarProperty Name="men_phone" ColumnName="men_phone" />
                 <ScalarProperty Name="men_fecha" ColumnName="men_fecha" />

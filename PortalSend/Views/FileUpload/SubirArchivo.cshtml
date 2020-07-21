@@ -1,0 +1,23 @@
+﻿@using PortalSend.Models;
+
+@{ Layout = "~/Views/Shared/_Layout_Simple.cshtml";
+
+    List<ResultadoCRUD_Models> ListR= ViewData["Resultados"] as List<ResultadoCRUD_Models>;
+
+}
+
+    <table>
+        <tr>
+            @foreach (ResultadoCRUD_Models item in ListR)
+            {
+            <td>
+                @item.res_cantidad @item.res_observacion + @item.res_excepcion
+            </td>
+
+            }
+        </tr>
+    </table>
+
+
+
+

@@ -15,7 +15,10 @@ namespace PortalSend.Models
         public DateTime men_fecha { get; set; }
         public string men_estado { get; set; }
         public string men_cuerpo { get; set; }
-        public string men_resumido { get; set; }
+        public int men_cant { get; set; }
+        public DateTime men_fechamodif { get; set; }
+        public string men_lote { get; set; }
+        public string men_titular { get; set; }
 
 
         //SELECT Mensajes
@@ -36,7 +39,10 @@ namespace PortalSend.Models
                          men_fecha=q.men_fecha,
                          men_estado=q.men_estado,
                          men_cuerpo=q.men_cuerpo,
-                         men_resumido=q.men_id + "-"+ men_phone
+                             men_cant=q.men_cant,
+                             men_fechamodif=q.men_fechamodif,
+                             men_lote=q.men_lote,
+                             men_titular=q.men_titular
                          }
 
                     ).ToList();
@@ -59,45 +65,36 @@ namespace PortalSend.Models
         public ResultadoCRUD_Models InsertUpdateMensajes(Mensajes_Models M)
         {
             ResultadoCRUD_Models R = new ResultadoCRUD_Models();
-            R.res_metodo = "Mensajes.InsertUpdateMensajes";
+            R.res_metodo = "Mensajes.UpdateMensajes";
             try
             {
               
                 Mensajes m = new Mensajes();
+                bool insert = false;
                 m = (from q in _conexion.Mensajes
                      where q.men_id == M.men_id
                      select q
                      ).FirstOrDefault();
-                if(m==null)
-                {
-                    m = new Mensajes();
-                    //INSERT
-                    m.men_cuerpo = M.men_cuerpo;
-                    m.men_estado = M.men_estado;
-                    m.men_fecha = M.men_fecha;
-                    m.men_phone = M.men_phone;
-                    m.men_id = M.men_id;
 
-                    _conexion.Mensajes.Add(m);
-                    R.res_cantidad= _conexion.SaveChanges();
-                    R.res_id = m.men_id.ToString();
-                    R.res_observacion = "INSERT";
+                if (m == null) insert = true; //INSERT
+                if(insert) m = new Mensajes();  //Solo si es Insert
+                
+                m.men_cuerpo = M.men_cuerpo;
+                m.men_estado = M.men_estado;
+                m.men_fecha = M.men_fecha;
+                m.men_phone = M.men_phone;
+                m.men_cant = M.men_cant;
+                m.men_fechamodif = DateTime.Now;
+                m.men_lote = M.men_lote;
+                m.men_id = M.men_id;
+                m.men_titular = M.men_titular;
+                
+                if (insert) _conexion.Mensajes.Add(m); //Solo si es insert
+                if (insert) R.res_metodo = "Mensajes.UpdateMensajes"; //Solo si es insert
 
-
-                } else
-                {
-                    //UPDATE
-                    m.men_cuerpo = M.men_cuerpo;
-                    m.men_estado = M.men_estado;
-                    m.men_fecha = M.men_fecha;
-                    m.men_phone = M.men_phone;
-                    m.men_id = M.men_id;
-                    R.res_cantidad = _conexion.SaveChanges();
-                    R.res_id = m.men_id.ToString();
-                    R.res_observacion = "UPDATE";
-                }
-
-
+                R.res_cantidad = _conexion.SaveChanges();
+                R.res_id = m.men_id.ToString();
+                R.res_observacion = m.men_titular + ":" + m.men_phone;
 
 
             }
@@ -161,6 +158,7 @@ namespace PortalSend.Models
         }
 
 
+        
 
 
 

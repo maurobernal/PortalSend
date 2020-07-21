@@ -19,5 +19,9 @@ namespace PortalSend.App_Data.PORTALSEND
         public System.DateTime men_fecha { get; set; }
         public string men_estado { get; set; }
         public string men_cuerpo { get; set; }
+        public int men_cant { get; set; }
+        public System.DateTime men_fechamodif { get; set; }
+        public string men_lote { get; set; }
+        public string men_titular { get; set; }
     }
 }
