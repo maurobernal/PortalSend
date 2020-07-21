@@ -122,6 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\DateTime.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Common\JsonPResult.cs" />
@@ -404,6 +405,7 @@
     <Content Include="Views\FileUpload\Index.cshtml" />
     <Content Include="Views\Shared\_Layout_Simple.cshtml" />
     <Content Include="Views\Lotes\Index.cshtml" />
+    <Content Include="Views\SMS\EnviarSMS.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

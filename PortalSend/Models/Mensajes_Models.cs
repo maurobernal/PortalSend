@@ -59,8 +59,45 @@ namespace PortalSend.Models
 
 
         }
-        
-        
+
+        public List<Mensajes_Models> SelectMensajes(string lote)
+        {
+            List<Mensajes_Models> query = new List<Mensajes_Models>();
+            try
+            {
+                query = (from q in _conexion.Mensajes 
+                         orderby q.men_fecha descending
+                         //join
+                         //order
+                         where q.men_lote==lote
+                         select new Mensajes_Models
+                         {
+                             men_id = q.men_id,
+                             men_phone = q.men_phone,
+                             men_fecha = q.men_fecha,
+                             men_estado = q.men_estado,
+                             men_cuerpo = q.men_cuerpo,
+                             men_cant = q.men_cant,
+                             men_fechamodif = q.men_fechamodif,
+                             men_lote = q.men_lote,
+                             men_titular = q.men_titular
+                         }
+
+                    ).ToList();
+
+                return query;
+
+            }
+            catch (Exception ex)
+            {
+                query.Add(new Mensajes_Models { men_cuerpo = "ERROR:" + ex.Message });
+                return query;
+            }
+
+
+
+        }
+
         //INSERT & //UPDATE 
         public ResultadoCRUD_Models InsertUpdateMensajes(Mensajes_Models M)
         {

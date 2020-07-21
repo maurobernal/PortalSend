@@ -1,0 +1,193 @@
+﻿
+@{
+    ViewBag.Title = "Enviar SMS - Lote:" + ViewData["Lote"];
+}
+
+
+
+<section id="Index" class="about">
+    <div class="container">
+        <div class="row">
+            <h2>Envio de SMS</h2>
+        </div>
+
+        <div class="row">
+            <h3>Lote:@ViewData["Lote"]</h3>
+            <div class="col p-2">
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col p-2">
+                <textarea id="Tbx_Mensaje" class="Tbx_Mensaje" placeholder="Mensaje" required></textarea>
+                <span id="Tbx_Longitud">Longitud</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col p-2">
+                <button id="Btn_Enviar" type="button" class="btn btn-info">Enviar SMS</button>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col">
+                <label>Contactos:</label>
+            </div>
+        </div>
+        <div class="row">
+            <div id="Pager_Contactos" class="k-pager-wrap"></div>
+        </div>
+        <div class="row">
+            <div id="List_Contactos"></div>
+        </div>
+        <div class="row">
+            <div class="col">
+
+            </div>
+        </div>
+        <div class="row">
+            <div id="Pager_Resultados" class="k-pager-wrap"></div>
+        </div>
+        <div class="row">
+            <div id="List_Resultados"></div>
+        </div>
+
+    </div>
+</section>
+
+
+
+<script>
+    $(document).ready(function () {
+        var lote = '@ViewData["Lote"]';
+
+        $("#Tbx_Mensaje").on('change keyup paste', function () {
+            $("#Tbx_Longitud").html("Largo <b>" + $("#Tbx_Mensaje").val().length + "( " + Math.floor(($("#Tbx_Mensaje").val().length / 160) + 1) + " sms)" +"</b> caracteres");
+
+        });
+        $("#Btn_Enviar").click(function () { EnviarSMS() });
+        dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: '@Url.Action("ListarMensajes", "SMS")',
+                    dataType: "json",
+                },
+                parameterMap: function (data, type) {
+                    if (type == "read") {
+                        return {
+                            Lote:lote,
+                        }
+                    }
+                }
+            },
+             schema: {
+                model: {
+                    id: "men_id",
+                    fields: {
+                        Titular: "men_titular",
+                        Phone: "men_phone"
+                    }
+                }
+            }
+        });
+
+        $("#List_Contactos").kendoListView({
+            dataSource: dataSource,
+            selectable: "single",
+            template: kendo.template($("#template").html()),
+        });
+
+        $("#Pager_Contactos").kendoPager({
+            dataSource: dataSource
+        });
+    });
+
+
+    function EnviarSMS(){
+
+        $.ajax({
+            url: '@Url.Action("EnviarSMSMasivo","SMS")',
+            datatype: "json",
+            type: "post",
+            data: {
+                Mensaje: $("#Tbx_Mensaje").val(),
+                Lote: '@ViewData["Lote"]'
+
+            },
+
+
+            success: function (data) {
+                if (data) {
+
+                    var dataSource = new kendo.data.DataSource({
+                        data: data,
+                        pageSize: 200
+                    });
+
+                    $("#Pager_Resultados").kendoPager({
+                        dataSource: dataSource
+                    });
+
+                    $("#List_Resultados").kendoListView({
+                        dataSource: dataSource,
+                        template: kendo.template($("#template_resultado").html())
+                    });
+
+
+
+                }
+            },
+
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("Status: " + textStatus + " Error: " + errorThrown + " URL" + Ruta);
+            }
+        });
+
+    }
+
+</script>
+
+
+
+
+
+<script type="text/x-kendo-tmpl" id="template">
+    <div class="row product-view">
+        <div class="col p-0 text-center rounded border">
+            <strong>#:men_id# </strong> <h4> #:Phone#</h4>
+            <h4>#:Titular#</h4>
+        </div>
+
+    </div>
+</script>
+
+
+
+<script type="text/x-kendo-tmpl" id="template_resultado">
+    <div class="row product-view">
+        <div class="col p-0 text-center rounded border">
+            <strong>#ID:res_id# Cant: #:res_cantidad# </strong> <h4> #:res_mensaje#</h4>
+                                                              <h4>#:kendo.stringify(res_contenido)#</h4>
+        </div>
+
+    </div>
+</script>
+
+
+
+<style>
+    .product-view {
+        float: left;
+        margin-left: 10px;
+        width: 500px;
+        height: 100px;
+    }
+
+    .Tbx_Mensaje {
+        width: 100%;
+        height: 100px;
+    }
+</style>

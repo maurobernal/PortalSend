@@ -130,12 +130,21 @@ namespace PortalSend.Models
             request.AddJsonBody(parseContent);
             IRestResponse response = client.Execute(request);
 
-                if (response.StatusCode == HttpStatusCode.OK) R.res_mensaje = "OK";
-                
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    R.res_mensaje = "OK";
                     R.res_contenido = JsonConvert.DeserializeObject<ReturnValue>(response.Content);
                     R.res_cantidad = 1;
+
+                }
+                else
+                {
                     R.res_mensaje = "NOOK";
-                    return R;
+                    R.res_contenido = JsonConvert.DeserializeObject<ReturnValue>(response.Content);
+                    R.res_cantidad = -1;
+
+                }
+                return R;
 
             }
             catch (Exception ex )

@@ -14,13 +14,18 @@ namespace PortalSend.Controllers
             return View();
         }
 
-        public JsonResult ListarLotes()
+        public JsonResult ListarLotes(string Fecha_Desde, string Fecha_Hasta)
         {
             List<Lotes_Models> ListarL = new List<Lotes_Models>();
             Lotes_Models L = new Lotes_Models();
+            DateTime fechadesde = new DateTime(1900, 01, 01);
+            DateTime fechahasta = new DateTime(2050, 12, 31);
+
+            DateTime.TryParse(Fecha_Desde, out fechadesde);
+            DateTime.TryParse(Fecha_Hasta, out fechahasta);
             try
             {
-                ListarL = L.SelectLotes(new DateTime(2020, 01, 01),new DateTime(2020,12,31));
+                ListarL = L.SelectLotes(fechadesde, fechahasta);
 
             }
             catch (Exception ex)
@@ -36,6 +41,40 @@ namespace PortalSend.Controllers
             {
                 ContentType = "application/json",
                 Data = ListarL,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                MaxJsonLength = Int32.MaxValue
+            };
+        }
+
+        public JsonResult EliminarLotes(string Lote)
+        {
+            List<Mensajes_Models> ListarL = new List<Mensajes_Models>();
+            ResultadoCRUD_Models R = new ResultadoCRUD_Models();
+            List<ResultadoCRUD_Models> ListR = new List<ResultadoCRUD_Models>();
+            try
+            {
+                ListarL = new Mensajes_Models().SelectMensajes(Lote);
+                foreach (Mensajes_Models item in ListarL)
+                {
+                    R = new ResultadoCRUD_Models();
+                    R=new Mensajes_Models().DeleteMensajes(item);
+                    ListR.Add(R);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                R = new ResultadoCRUD_Models();
+                R.res_observacion = "ERROR:" + ex.Message;
+                R.res_cantidad = -1;
+                R.res_metodo = "Lotes.EliminarLotes";
+                ListR.Add(R);
+            }
+
+            return new JsonResult
+            {
+                ContentType = "application/json",
+                Data = ListR,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet,
                 MaxJsonLength = Int32.MaxValue
             };
