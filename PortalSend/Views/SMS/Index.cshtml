@@ -1,7 +1,11 @@
 ﻿
+@using PortalSend.Models;
 @{
     ViewBag.Title = "Index";
-}
+    Resultados_Models R1 = ViewData["Resultado1"] as Resultados_Models;
+    Resultados_Models R2 = ViewData["Resultado2"] as Resultados_Models;
+    Resultados_Models R3 = ViewData["Resultado3"] as Resultados_Models;
+    }
 
 <!-- ======= Section ======= -->
 <section id="Index" class="about">
@@ -16,6 +20,66 @@
                 <h3>Portal para envio masivo de SMS</h3>
             </div>
         </div>
+   
+            <div class="card-deck mb-3 text-center">
+
+                <div class="card mb-3 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">Port Info</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title">@R1.res_mensaje <small class="text-muted"></small></h1>
+                        <ul class="list-unstyled mt-3 mb-3">
+                            <li>@R1.res_contenido.content</li>
+                            <li>@R1.res_cantidad</li>
+                            <li>@R1.res_metodo</li>
+                            <li>@R1.res_excepcion</li>
+                        </ul>
+
+                    </div>
+                </div>
+
+                <div class="card mb-3 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">Port Connect State</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title">@R2.res_mensaje <small class="text-muted"></small></h1>
+                        <ul class="list-unstyled mt-3 mb-3">
+                            <li>@R2.res_contenido.content</li>
+                            <li>@R2.res_cantidad</li>
+                            <li>@R2.res_metodo</li>
+                            <li>@R2.res_excepcion</li>
+                        </ul>
+
+                    </div>
+                </div>
+
+                <div class="card mb-3 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">Wireless Info</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title">@R3.res_mensaje <small class="text-muted"></small></h1>
+                        <ul class="list-unstyled mt-3 mb-3">
+                            <li>@R3.res_contenido.content</li>
+                            <li>@R3.res_cantidad</li>
+                            <li>@R3.res_metodo</li>
+                            <li>@R3.res_excepcion</li>
+                        </ul>
+
+                    </div>
+                </div>
+
+              
+
+
+
+
+            </div>
+
+
+     
 
     </div>
 </section><!-- End Section -->
