@@ -1,0 +1,61 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using Hangfire;
+using Hangfire.Logging;
+using Hangfire.SqlServer;
+using Hangfire.States;
+using Hangfire.Storage;
+
+namespace PortalSend.Models
+{
+    public class HangFire_Models
+    {
+
+        public HangFire_Models()
+        {
+            try
+            {
+
+
+                GlobalConfiguration.Configuration
+                   .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                   .UseColouredConsoleLogProvider()
+                   .UseSimpleAssemblyNameTypeSerializer()
+                   .UseRecommendedSerializerSettings()
+               //.UseSqlServerStorage("PortalSend_Entities");
+               .UseSqlServerStorage("data source=172.0.0.7;initial catalog=PortalSend;persist security info=True;user id=user_portalsend;password=Urx8XJ6DQzfPPY3B;MultipleActiveResultSets=True;", new SqlServerStorageOptions
+
+               {
+                   CommandBatchMaxTimeout = TimeSpan.FromMinutes(2),
+                   SlidingInvisibilityTimeout = TimeSpan.FromMinutes(2),
+                   QueuePollInterval = TimeSpan.Zero,
+                   UseRecommendedIsolationLevel = true,
+                   UsePageLocksOnDequeue = true,
+                   DisableGlobalLocks = true
+               }).WithJobExpirationTimeout(TimeSpan.FromHours(6))
+                .UseFilter(new LogFailureAttribute())
+
+              
+                
+
+                ;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+
+        }
+
+
+    }
+}
+
+
+
+
+

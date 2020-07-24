@@ -65,6 +65,51 @@ namespace PortalSend.Models
 
         }
 
+        public Mensajes_Models SelectMensaje(int taskid)
+        {
+            
+            try
+            {
+               Mensajes_Models query = (from q in _conexion.Mensajes
+                                        where q.men_taskid==taskid
+                         orderby q.men_fecha descending
+                         //join
+                         //order
+                         //where
+                         select new Mensajes_Models
+                         {
+                             men_id = q.men_id,
+                             men_phone = q.men_phone,
+                             men_fecha = q.men_fecha,
+                             men_estado = q.men_estado,
+                             men_cuerpo = q.men_cuerpo,
+                             men_enviolote = q.men_enviolote,
+                             mencon_id = q.mencon_id,
+                             men_taskid = q.men_taskid,
+                             men_cant = q.men_cant,
+                             men_fechamodif = q.men_fechamodif,
+                             men_lote = q.men_lote,
+
+                         }
+
+                    ).FirstOrDefault();
+
+                return query;
+
+            }
+            catch (Exception ex)
+            {
+                Mensajes_Models M = new Mensajes_Models();
+                M.men_taskid = -1;
+                M.men_estado = "ERROR";
+                M.men_cuerpo = "ERROR:" + ex.Message;
+                return M;
+            }
+
+
+
+        }
+
         public List<Mensajes_Models> SelectMensajes(string lote)
         {
             List<Mensajes_Models> query = new List<Mensajes_Models>();
