@@ -72,7 +72,7 @@
             pageSize: 20,
             transport: {
                 read: {
-                    url: '@Url.Action("ListarMensajes", "SMS")',
+                    url: '@Url.Action("ListarContactos", "SMS")',
                     dataType: "json",
                 },
                 parameterMap: function (data, type) {
@@ -85,10 +85,10 @@
             },
              schema: {
                 model: {
-                    id: "men_id",
+                    id: "con_id",
                     fields: {
-                        Titular: "men_titular",
-                        Phone: "men_phone"
+                        Titular: "con_titular",
+                        Phone: "con_phone"
                     }
                 }
             }
@@ -157,7 +157,7 @@
 <script type="text/x-kendo-tmpl" id="template">
     <div class="row product-view">
         <div class="col p-0 text-center rounded border">
-            <strong>#:men_id# </strong> <h4> #:Phone#</h4>
+            <strong>#:con_id# </strong> <h4> #:Phone#</h4>
             <h4>#:Titular#</h4>
         </div>
 

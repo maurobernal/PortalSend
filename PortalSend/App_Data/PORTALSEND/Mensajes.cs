@@ -21,7 +21,11 @@ namespace PortalSend.App_Data.PORTALSEND
         public string men_cuerpo { get; set; }
         public int men_cant { get; set; }
         public System.DateTime men_fechamodif { get; set; }
+        public int mencon_id { get; set; }
         public string men_lote { get; set; }
-        public string men_titular { get; set; }
+        public string men_enviolote { get; set; }
+        public int men_taskid { get; set; }
+    
+        public virtual Contactos Contactos { get; set; }
     }
 }

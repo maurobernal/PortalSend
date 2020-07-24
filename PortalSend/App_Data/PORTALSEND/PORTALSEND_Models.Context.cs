@@ -25,7 +25,8 @@ namespace PortalSend.App_Data.PORTALSEND
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Contactos> Contactos { get; set; }
+        public virtual DbSet<Templates> Templates { get; set; }
         public virtual DbSet<Mensajes> Mensajes { get; set; }
-        public virtual DbSet<Template> Template { get; set; }
     }
 }

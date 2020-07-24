@@ -12,7 +12,7 @@ namespace PortalSend.App_Data.PORTALSEND
     using System;
     using System.Collections.Generic;
     
-    public partial class Template
+    public partial class Templates
     {
         public int tem_id { get; set; }
         public string tem_titulo { get; set; }

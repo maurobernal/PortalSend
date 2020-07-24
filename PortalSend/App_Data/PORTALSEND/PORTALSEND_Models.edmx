@@ -5,6 +5,17 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="PortalSend_Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Contactos">
+          <Key>
+            <PropertyRef Name="con_id" />
+          </Key>
+          <Property Name="con_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="con_titular" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="con_phone" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="con_fecha" Type="datetime" Nullable="false" />
+          <Property Name="con_lote" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="con_cant" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Mensajes">
           <Key>
             <PropertyRef Name="men_id" />
@@ -12,14 +23,16 @@
           <Property Name="men_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="men_phone" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="men_fecha" Type="datetime" Nullable="false" />
-          <Property Name="men_estado" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="men_estado" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="men_cuerpo" Type="varchar" MaxLength="300" Nullable="false" />
           <Property Name="men_cant" Type="int" Nullable="false" />
           <Property Name="men_fechamodif" Type="datetime" Nullable="false" />
+          <Property Name="mencon_id" Type="int" Nullable="false" />
           <Property Name="men_lote" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="men_titular" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="men_enviolote" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="men_taskid" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="Template">
+        <EntityType Name="Templates">
           <Key>
             <PropertyRef Name="tem_id" />
           </Key>
@@ -27,67 +40,130 @@
           <Property Name="tem_titulo" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="tem_cuerpo" Type="varchar" MaxLength="300" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Mensajes_Contactos">
+          <End Role="Contactos" Type="Self.Contactos" Multiplicity="1" />
+          <End Role="Mensajes" Type="Self.Mensajes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contactos">
+              <PropertyRef Name="con_id" />
+            </Principal>
+            <Dependent Role="Mensajes">
+              <PropertyRef Name="mencon_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="PortalSend_ModelStoreContainer">
+          <EntitySet Name="Contactos" EntityType="Self.Contactos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Mensajes" EntityType="Self.Mensajes" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Template" EntityType="Self.Template" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Templates" EntityType="Self.Templates" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Mensajes_Contactos" Association="Self.FK_Mensajes_Contactos">
+            <End Role="Contactos" EntitySet="Contactos" />
+            <End Role="Mensajes" EntitySet="Mensajes" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PortalSend_Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="PortalSend_Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Contactos" EntityType="PortalSend_Model.Contactos" />
+          <EntitySet Name="Templates" EntityType="PortalSend_Model.Templates" />
+          <EntitySet Name="Mensajes" EntityType="PortalSend_Model.Mensajes" />
+          <AssociationSet Name="FK_Mensajes_Contactos" Association="PortalSend_Model.FK_Mensajes_Contactos">
+            <End Role="Contactos" EntitySet="Contactos" />
+            <End Role="Mensajes" EntitySet="Mensajes" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Contactos">
+          <Key>
+            <PropertyRef Name="con_id" />
+          </Key>
+          <Property Name="con_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="con_titular" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="con_phone" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="con_fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="con_lote" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="con_cant" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Mensajes" Relationship="PortalSend_Model.FK_Mensajes_Contactos" FromRole="Contactos" ToRole="Mensajes" />
+        </EntityType>
+        <EntityType Name="Templates">
+          <Key>
+            <PropertyRef Name="tem_id" />
+          </Key>
+          <Property Name="tem_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tem_titulo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tem_cuerpo" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="Mensajes">
           <Key>
             <PropertyRef Name="men_id" />
           </Key>
           <Property Name="men_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="men_phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="men_phone" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="men_fecha" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="men_estado" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="men_cuerpo" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="men_estado" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="men_cuerpo" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
           <Property Name="men_cant" Type="Int32" Nullable="false" />
           <Property Name="men_fechamodif" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="mencon_id" Type="Int32" Nullable="false" />
           <Property Name="men_lote" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="men_titular" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="men_enviolote" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="men_taskid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Contactos" Relationship="PortalSend_Model.FK_Mensajes_Contactos" FromRole="Mensajes" ToRole="Contactos" />
         </EntityType>
-        <EntityType Name="Template">
-          <Key>
-            <PropertyRef Name="tem_id" />
-          </Key>
-          <Property Name="tem_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="tem_titulo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="tem_cuerpo" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
-        </EntityType>
-        <EntityContainer Name="PortalSend_Entities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Mensajes" EntityType="Self.Mensajes" />
-          <EntitySet Name="Template" EntityType="Self.Template" />
-        </EntityContainer>
+        <Association Name="FK_Mensajes_Contactos">
+          <End Type="PortalSend_Model.Contactos" Role="Contactos" Multiplicity="1" />
+          <End Type="PortalSend_Model.Mensajes" Role="Mensajes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contactos">
+              <PropertyRef Name="con_id" />
+            </Principal>
+            <Dependent Role="Mensajes">
+              <PropertyRef Name="mencon_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="PortalSend_ModelStoreContainer" CdmEntityContainer="PortalSend_Entities">
-          <EntitySetMapping Name="Mensajes">
-            <EntityTypeMapping TypeName="PortalSend_Model.Mensajes">
-              <MappingFragment StoreEntitySet="Mensajes">
-                <ScalarProperty Name="men_titular" ColumnName="men_titular" />
-                <ScalarProperty Name="men_lote" ColumnName="men_lote" />
-                <ScalarProperty Name="men_fechamodif" ColumnName="men_fechamodif" />
-                <ScalarProperty Name="men_cant" ColumnName="men_cant" />
-                <ScalarProperty Name="men_id" ColumnName="men_id" />
-                <ScalarProperty Name="men_phone" ColumnName="men_phone" />
-                <ScalarProperty Name="men_fecha" ColumnName="men_fecha" />
-                <ScalarProperty Name="men_estado" ColumnName="men_estado" />
-                <ScalarProperty Name="men_cuerpo" ColumnName="men_cuerpo" />
+          <EntitySetMapping Name="Contactos">
+            <EntityTypeMapping TypeName="PortalSend_Model.Contactos">
+              <MappingFragment StoreEntitySet="Contactos">
+                <ScalarProperty Name="con_cant" ColumnName="con_cant" />
+                <ScalarProperty Name="con_lote" ColumnName="con_lote" />
+                <ScalarProperty Name="con_fecha" ColumnName="con_fecha" />
+                <ScalarProperty Name="con_phone" ColumnName="con_phone" />
+                <ScalarProperty Name="con_titular" ColumnName="con_titular" />
+                <ScalarProperty Name="con_id" ColumnName="con_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Template">
-            <EntityTypeMapping TypeName="PortalSend_Model.Template">
-              <MappingFragment StoreEntitySet="Template">
-                <ScalarProperty Name="tem_id" ColumnName="tem_id" />
-                <ScalarProperty Name="tem_titulo" ColumnName="tem_titulo" />
+          <EntitySetMapping Name="Templates">
+            <EntityTypeMapping TypeName="PortalSend_Model.Templates">
+              <MappingFragment StoreEntitySet="Templates">
                 <ScalarProperty Name="tem_cuerpo" ColumnName="tem_cuerpo" />
+                <ScalarProperty Name="tem_titulo" ColumnName="tem_titulo" />
+                <ScalarProperty Name="tem_id" ColumnName="tem_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mensajes">
+            <EntityTypeMapping TypeName="PortalSend_Model.Mensajes">
+              <MappingFragment StoreEntitySet="Mensajes">
+                <ScalarProperty Name="men_taskid" ColumnName="men_taskid" />
+                <ScalarProperty Name="men_enviolote" ColumnName="men_enviolote" />
+                <ScalarProperty Name="men_lote" ColumnName="men_lote" />
+                <ScalarProperty Name="mencon_id" ColumnName="mencon_id" />
+                <ScalarProperty Name="men_fechamodif" ColumnName="men_fechamodif" />
+                <ScalarProperty Name="men_cant" ColumnName="men_cant" />
+                <ScalarProperty Name="men_cuerpo" ColumnName="men_cuerpo" />
+                <ScalarProperty Name="men_estado" ColumnName="men_estado" />
+                <ScalarProperty Name="men_fecha" ColumnName="men_fecha" />
+                <ScalarProperty Name="men_phone" ColumnName="men_phone" />
+                <ScalarProperty Name="men_id" ColumnName="men_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -31,29 +31,29 @@ namespace PortalSend.Controllers
 
 
 
-        public JsonResult ListarMensajes(string Lote)
+        public JsonResult ListarContactos(string Lote)
         {
-            List<Mensajes_Models> ListarM = new List<Mensajes_Models>();
-            Mensajes_Models M = new Mensajes_Models();
+            List<Contactos_Models> ListarC = new List<Contactos_Models>();
+            Contactos_Models C = new Contactos_Models();
          
             try
             {
-                ListarM = new Mensajes_Models().SelectMensajes(Lote);
+                ListarC = new Contactos_Models().SelectContactos(Lote);
 
             }
             catch (Exception ex)
             {
-                M = new Mensajes_Models();
-                M.men_titular = "ERROR:" + ex.Message;
-                M.men_phone = "-1";
-                ListarM.Add(M);
+                C = new Contactos_Models();
+                C.con_titular = "ERROR:" + ex.Message;
+                C.con_phone = "-1";
+                ListarC.Add(C);
 
             }
 
             return new JsonResult
             {
                 ContentType = "application/json",
-                Data = ListarM,
+                Data = ListarC,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet,
                 MaxJsonLength = Int32.MaxValue
             };
@@ -64,16 +64,52 @@ namespace PortalSend.Controllers
 
             List<Resultados_Models> ListarR = new List<Resultados_Models>();
             Resultados_Models R = new Resultados_Models();
+            Mensajes_Models M = new Mensajes_Models();
 
             try
             {
-                List<Mensajes_Models> ListarM = new List<Mensajes_Models>();
+                List<Contactos_Models> ListarM = new List<Contactos_Models>();
 
-                ListarM = new Mensajes_Models().SelectMensajes(Lote);
-                foreach (Mensajes_Models item in ListarM)
+                ListarM = new Contactos_Models().SelectContactos(Lote);
+                string _loteenvio = DateTime.Now.ToString("yyMMdd-HHmmss");
+                foreach (Contactos_Models item in ListarM)
                 {
-                    R = new Resultados_Models();
-                   R= SynWayAPI_models.EnvioSMS(SynWayAPI_models.Envios_Types.SendSMS, item.men_phone,"1",Mensaje);
+                    M = new Mensajes_Models();
+                    
+                    M.mencon_id = item.con_id;
+                    M.men_phone = item.con_phone;
+                    M.mencon_id = item.con_id;
+                    M.men_cant = 1;
+                    M.men_cuerpo = Mensaje;
+                    M.men_enviolote = _loteenvio;
+                    M.men_estado = "ERROR";
+                    M.men_fecha = DateTime.Now;
+                    M.men_fechamodif = DateTime.Now;
+                    M.men_lote = item.con_lote;
+                    M.men_phone = item.con_phone;
+                    M.men_taskid = 0;
+
+                   R = new Resultados_Models();
+                   R= SynWayAPI_models.EnvioSMS(SynWayAPI_models.Envios_Types.SendSMS, item.con_phone,"4",Mensaje);
+                    try
+                    {
+                        if (R.res_mensaje == "OK")
+                        {
+                            R.res_mensaje = R.res_contenido.result;
+                            M.men_estado = R.res_contenido.result;
+                            if (R.res_contenido.result == "ok") M.men_taskid = int.Parse(R.res_contenido.content.ToLower().Replace("taskid:",""));
+                        }
+                        
+                        
+
+
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
+                    M.InsertUpdateMensajes(M);
                     ListarR.Add(R);
                 }
 

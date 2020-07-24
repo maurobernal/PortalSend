@@ -24,9 +24,9 @@ namespace PortalSend.Models
             try
             {
                 ListL = (
-                    (from q in _conexion.Mensajes
-                     where q.men_fecha >= _fechadesde && q.men_fecha <= _fechahasta
-                     group q by q.men_lote into g
+                    (from q in _conexion.Contactos
+                     where q.con_fecha >= _fechadesde && q.con_fecha <= _fechahasta
+                     group q by q.con_lote into g
                      orderby g.Key descending
 
                      select new Lotes_Models()
@@ -41,7 +41,9 @@ namespace PortalSend.Models
             catch (Exception ex)
             {
 
-                throw;
+                L = new Lotes_Models();
+                L.Lote = "ERROR:" + ex.Message;
+                ListL.Add(L);
             }
             return ListL;
 

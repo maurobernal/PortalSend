@@ -48,16 +48,16 @@ namespace PortalSend.Controllers
 
         public JsonResult EliminarLotes(string Lote)
         {
-            List<Mensajes_Models> ListarL = new List<Mensajes_Models>();
+            List<Contactos_Models> ListarL = new List<Contactos_Models>();
             ResultadoCRUD_Models R = new ResultadoCRUD_Models();
             List<ResultadoCRUD_Models> ListR = new List<ResultadoCRUD_Models>();
             try
             {
-                ListarL = new Mensajes_Models().SelectMensajes(Lote);
-                foreach (Mensajes_Models item in ListarL)
+                ListarL = new Contactos_Models().SelectContactos(Lote);
+                foreach (Contactos_Models item in ListarL)
                 {
                     R = new ResultadoCRUD_Models();
-                    R=new Mensajes_Models().DeleteMensajes(item);
+                    R=new Contactos_Models().DeleteContactos(item);
                     ListR.Add(R);
                 }
 

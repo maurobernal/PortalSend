@@ -18,7 +18,9 @@ namespace PortalSend.Models
         public int men_cant { get; set; }
         public DateTime men_fechamodif { get; set; }
         public string men_lote { get; set; }
-        public string men_titular { get; set; }
+        public string men_enviolote { get; set; }
+        public int mencon_id { get; set; }
+        public int men_taskid { get; set; }
 
 
         //SELECT Mensajes
@@ -39,10 +41,13 @@ namespace PortalSend.Models
                          men_fecha=q.men_fecha,
                          men_estado=q.men_estado,
                          men_cuerpo=q.men_cuerpo,
+                         men_enviolote=q.men_enviolote,
+                         mencon_id=q.mencon_id,
+                         men_taskid=q.men_taskid,
                              men_cant=q.men_cant,
                              men_fechamodif=q.men_fechamodif,
                              men_lote=q.men_lote,
-                             men_titular=q.men_titular
+                           
                          }
 
                     ).ToList();
@@ -80,7 +85,10 @@ namespace PortalSend.Models
                              men_cant = q.men_cant,
                              men_fechamodif = q.men_fechamodif,
                              men_lote = q.men_lote,
-                             men_titular = q.men_titular
+                             men_enviolote = q.men_enviolote,
+                             mencon_id = q.mencon_id,
+                             men_taskid = q.men_taskid,
+
                          }
 
                     ).ToList();
@@ -124,14 +132,17 @@ namespace PortalSend.Models
                 m.men_fechamodif = DateTime.Now;
                 m.men_lote = M.men_lote;
                 m.men_id = M.men_id;
-                m.men_titular = M.men_titular;
+                m.mencon_id = M.mencon_id;
+                m.men_enviolote = M.men_enviolote;
+                m.mencon_id = M.mencon_id;
+                m.men_taskid = M.men_taskid;
                 
                 if (insert) _conexion.Mensajes.Add(m); //Solo si es insert
                 if (insert) R.res_metodo = "Mensajes.UpdateMensajes"; //Solo si es insert
 
                 R.res_cantidad = _conexion.SaveChanges();
                 R.res_id = m.men_id.ToString();
-                R.res_observacion = m.men_titular + ":" + m.men_phone;
+                R.res_observacion = m.mencon_id + ":" + m.men_phone;
 
 
             }

@@ -124,17 +124,14 @@ namespace PortalSend.Controllers
             string _lote = DateTime.Now.ToString("yyyyMMdd-hhmm");
             foreach (Importar_Models item in List_Importar)
             {
-                Mensajes_Models M = new Mensajes_Models();
+                Contactos_Models C = new Contactos_Models();
                 R = new ResultadoCRUD_Models();
-                M.men_fecha = DateTime.Now;
-                M.men_cant = 0;
-                M.men_cuerpo = "";
-                M.men_estado = "I";
-                M.men_fechamodif = DateTime.Now;
-                M.men_lote = _lote;
-                M.men_phone = item.tel1;
-                M.men_titular = item.titular;
-                R=M.InsertUpdateMensajes(M);
+                C.con_fecha = DateTime.Now;
+                C.con_cant = 0;
+                C.con_lote = _lote;
+                C.con_phone = item.tel1;
+                C.con_titular = item.titular;
+                R=C.InsertUpdateContactos(C);
                 ListR.Add(R);
 
             }
