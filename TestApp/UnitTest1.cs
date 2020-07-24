@@ -10,7 +10,7 @@ namespace TestApp
     {
         ResultadoCRUD_Models R;
         Mensajes_Models M;
-        Template_Models T;
+        Templates_Models T;
         
         
         [TestMethod]
@@ -62,33 +62,33 @@ namespace TestApp
         {
             //Insert
             R = new ResultadoCRUD_Models();
-            T = new Template_Models();
+            T = new Templates_Models();
             T.tem_cuerpo = "Este es el cuerpo";
             T.tem_titulo = "332432423423";
-            R = T.InsertUpdateTemplate(T);
+            R = T.InsertUpdateTemplates(T);
 
             //Update
             R = new ResultadoCRUD_Models();
-            T = new Template_Models();
+            T = new Templates_Models();
             T.tem_id = 11;
             T.tem_cuerpo = "Este es un registro actualizado";
             T.tem_titulo = "332432423423";
-            R = T.InsertUpdateTemplate(T);
+            R = T.InsertUpdateTemplates(T);
 
             //Delete
             
             List<ResultadoCRUD_Models> ListR = new List<ResultadoCRUD_Models>();
-            T = new Template_Models();
+            T = new Templates_Models();
             for (int i = 0; i < 15; i++)
             {
                 R = new ResultadoCRUD_Models();
-                R = T.DeleteTemplate(new Template_Models() { tem_id = i });
+                R = T.DeleteTemplates(new Templates_Models() { tem_id = i });
                 ListR.Add(R);
             }
             
             //Select
-            List<Template_Models> ListM = new List<Template_Models>();
-            ListM = T.SelectTemplate();
+            List<Templates_Models> ListM = new List<Templates_Models>();
+            ListM = T.SelectTemplates();
 
 
 
