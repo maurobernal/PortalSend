@@ -237,8 +237,6 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Files\somefiles\Miniatura1.png" />
-    <Content Include="Files\somefiles\thumbs\Miniatura180x80.jpg" />
     <Content Include="Global.asax" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
@@ -261,7 +259,6 @@
     <Content Include="assets\vendor\jquery\jquery.min.map" />
     <Content Include="assets\vendor\owl.carousel\LICENSE" />
     <Content Include="assets\vendor\owl.carousel\README.md" />
-    <Content Include="Files\somefiles\Miniatura.psd" />
     <None Include="packages.config" />
     <Content Include="App_Data\PORTALSEND\PORTALSEND_Models.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -310,6 +307,7 @@
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\dropzone\dropzone.js.map" />
+    <None Include="Properties\PublishProfiles\IISProfile.pubxml" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />
     <Content Include="Scripts\jquery-3.5.1.min.js" />
@@ -422,7 +420,9 @@
     <Content Include="Views\Lotes\Index.cshtml" />
     <Content Include="Views\SMS\EnviarSMS.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Files\" />
+  </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
