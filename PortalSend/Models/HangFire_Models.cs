@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 using Hangfire;
 using Hangfire.Logging;
 using Hangfire.SqlServer;
@@ -24,10 +25,11 @@ namespace PortalSend.Models
                    .UseColouredConsoleLogProvider()
                    .UseSimpleAssemblyNameTypeSerializer()
                    .UseRecommendedSerializerSettings()
-               //.UseSqlServerStorage("PortalSend_Entities");
-               .UseSqlServerStorage("data source=172.0.0.7;initial catalog=PortalSend;persist security info=True;user id=user_portalsend;password=Urx8XJ6DQzfPPY3B;MultipleActiveResultSets=True;", new SqlServerStorageOptions
+              //.UseSqlServerStorage("PortalSend_Entities");
+              //  .UseSqlServerStorage("datasource=localhost;initial catalog=PortalSend;persist security info=True;user id=user_portalsend;password=Codeme123;MultipleActiveResultSets=True;", new SqlServerStorageOptions
+              .UseSqlServerStorage(WebConfigurationManager.ConnectionStrings["HangFire_Connection"].ConnectionString, new SqlServerStorageOptions
 
-               {
+              {
                    CommandBatchMaxTimeout = TimeSpan.FromMinutes(2),
                    SlidingInvisibilityTimeout = TimeSpan.FromMinutes(2),
                    QueuePollInterval = TimeSpan.Zero,

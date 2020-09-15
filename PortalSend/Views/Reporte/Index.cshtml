@@ -1,0 +1,163 @@
+﻿
+@{
+    ViewBag.Title = "Reportes";
+}
+
+
+
+<section id="Index" class="about">
+    <div class="container">
+        <div class="row">
+            <h2>Reporte cargados</h2>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label>Fecha desde:</label> <input id="DTP_FechaDesde" title="Fecha desde" style="width: 100%" />
+            </div>
+            <div class="col">
+                <label> Fecha hasta:</label> <input id="DTP_FechaHasta" title="Fecha hasta" style="width: 100%" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col p-2">
+                <button id="Btn_Cargar" type="button" class="btn btn-info">Cargar Reporte</button>
+            </div>
+        </div>
+        <div class="row">
+            <div id="Pager_Reporte" class="k-pager-wrap"></div>
+        </div>
+        <div class="row">
+            <div id="List_Reporte"></div>
+        </div>
+
+    </div>
+</section>
+
+
+
+<script>
+    $(document).ready(function () {
+        // Inicializo
+        $("#DTP_FechaDesde").kendoDatePicker();
+        $("#DTP_FechaHasta").kendoDatePicker();
+        $("#Btn_Cargar").click(function () { CargarReporte() });
+
+                var date = new Date();
+                $("#DTP_FechaDesde").data("kendoDatePicker").value(new Date(date.getFullYear(), date.getMonth(), 1));
+                $("#DTP_FechaHasta").data("kendoDatePicker").value(new Date(date.getFullYear(), date.getMonth() + 1, 0));
+
+
+        dataSource = new kendo.data.DataSource({
+            pageSize: 50,
+            transport: {
+                read: {
+                    url: '@Url.Action("ListarReporte", "Reporte")',
+                    dataType: "json",
+                },
+                parameterMap: function (data, type) {
+                    if (type == "read") {
+                        // send take as "$top" and skip as "$skip"
+                        return {
+                            Fecha_Desde: $('#DTP_FechaDesde').val(),
+                            Fecha_Hasta: $('#DTP_FechaHasta').val()
+
+                        }
+                    }
+
+                }
+            },
+
+             schema: {
+                model: {
+                    id: "id",
+                    fields: {
+                        state: "state",
+                        created: "created",
+                        men_lote: "men_lote",
+                        men_fechamodif: "men_fechamodif",
+                        men_cuerpo: "men_cuerpo",
+                        men_phone: "men_phone",
+                    }
+                }
+            }
+        });
+
+
+        $("#List_Reporte").kendoListView({
+            dataSource: dataSource,
+            selectable: "single",
+            template: kendo.template($("#template").html()),
+            altTemplate: kendo.template($("#template2").html()),
+        });
+
+        $("#Pager_Reporte").kendoPager({
+            dataSource: dataSource
+        });
+    });
+
+
+
+    function CargarReporte() {
+        dataSource.read();
+      };
+
+
+    function additionalData() {
+        return {
+            Fecha_Desde: $('#DTP_FechaDesde').val(),
+            Fecha_Hasta: $('#DTP_FechaHasta').val()
+        };
+    };
+</script>
+
+
+
+
+
+<script type="text/x-kendo-tmpl" id="template">
+    <div class="row bg-light">
+        <div class="col text-center small p-2 rounded">
+            <p class="border-bottom bg-dark text-white">
+                <strong><i class="fas fa-key"></i><span id="#:id#" title="#: men_cuerpo #"> #:id#  </span></strong>
+                <span><i class="fas fa-mobile-alt"></i> #: men_phone # </span>
+                <span class="text-info"> #:state#  </span>
+            </p>
+
+            <span class="text-primary">#: men_lote #</span>
+            <span>
+                <i class="fas fa-calendar-day"></i> #: kendo.toString(kendo.parseDate(created),'dd/MM/yy HH:mm:ss') # /
+                <i class="fas fa-calendar-day"></i> #: kendo.toString(kendo.parseDate(men_fechamodif),'dd/MM/yy HH:mm:ss') #
+            </span>
+            <p class="text-black-50"> #: men_cuerpo # </p>
+        </div>
+    </div>
+</script>
+
+<script type="text/x-kendo-tmpl" id="template2">
+    <div class="row bg-light">
+        <div class="col text-center small p-2 rounded">
+            <p class="border-bottom bg-dark text-white">
+                <strong><i class="fas fa-key"></i><span id="#:id#" title="#: men_cuerpo #"> #:id#  </span></strong>
+                <span><i class="fas fa-mobile-alt"></i> #: men_phone # </span>
+                <span class="text-info"> #:state#  </span>
+            </p>
+
+            <span class="text-primary">#: men_lote #</span>
+            <span>
+                <i class="fas fa-calendar-day"></i> #: kendo.toString(kendo.parseDate(created),'dd/MM/yy HH:mm:ss') # /
+                <i class="fas fa-calendar-day"></i> #: kendo.toString(kendo.parseDate(men_fechamodif),'dd/MM/yy HH:mm:ss') #
+            </span>
+            <p class="text-black-50"> #: men_cuerpo # </p>
+        </div>
+    </div>
+</script>
+
+
+
+<style>
+    .k-listview-bordered {
+        width: 100%;
+        max-width: 600px;
+        border: none;
+    }
+</style>

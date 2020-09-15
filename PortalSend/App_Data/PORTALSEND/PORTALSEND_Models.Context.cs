@@ -28,5 +28,6 @@ namespace PortalSend.App_Data.PORTALSEND
         public virtual DbSet<Contactos> Contactos { get; set; }
         public virtual DbSet<Templates> Templates { get; set; }
         public virtual DbSet<Mensajes> Mensajes { get; set; }
+        public virtual DbSet<Job> Job { get; set; }
     }
 }

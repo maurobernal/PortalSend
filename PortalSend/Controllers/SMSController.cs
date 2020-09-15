@@ -7,10 +7,12 @@ using System.Web.Mvc;
 using Hangfire;
 using Hangfire.SqlServer;
 
+
 namespace PortalSend.Controllers
 {
     public class SMSController : Controller
     {
+
         // GET: SMS
         public ActionResult Index()
         {
@@ -23,12 +25,11 @@ namespace PortalSend.Controllers
             ViewData["Resultado1"]=SynWayAPI_models.Consultas(SynWayAPI_models.Consultas_Types.GetPortInfo);
             ViewData["Resultado2"] = SynWayAPI_models.Consultas(SynWayAPI_models.Consultas_Types.GetPortConnectState);
             ViewData["Resultado3"] = SynWayAPI_models.Consultas(SynWayAPI_models.Consultas_Types.GetWirelessinfo);
-            
-            
             ViewData["Resultado4"] = SynWayAPI_models.Consultas(SynWayAPI_models.Consultas_Types.GetDetailPortInfo);
-            ViewData["Resultado5"] = SynWayAPI_models.EnvioSMS(SynWayAPI_models.Envios_Types.SendSMS,"2616142278","1","prueba:"+ DateTime.Now.ToShortTimeString());
-            ViewData["Resultado6"] = SynWayAPI_models.EnvioSMS(SynWayAPI_models.Envios_Types.SendSMS, "2616142278", "1", "prueba:" + DateTime.Now.ToShortTimeString());
             
+            /*ViewData["Resultado5"] = SynWayAPI_models.EnvioSMS(SynWayAPI_models.Envios_Types.SendSMS,"2616142278","1","prueba:"+ DateTime.Now.ToShortTimeString());
+            ViewData["Resultado6"] = SynWayAPI_models.EnvioSMS(SynWayAPI_models.Envios_Types.SendSMS, "2616142278", "1", "prueba:" + DateTime.Now.ToShortTimeString());
+            */
             /*
             BackgroundJob.Schedule(() => SynWayAPI_models.EnvioSMS(SynWayAPI_models.Envios_Types.SendSMS, "2616142278", "1", "prueba:" + DateTime.Now.ToShortTimeString()),
                 TimeSpan.FromMinutes(1));
@@ -61,6 +62,8 @@ namespace PortalSend.Controllers
         public ActionResult EnviarSMS(string Lote)
         {
             ViewData["Lote"] = Lote;
+         //   ViewData["Configuración"] = new Chiperas_Configuration_Models();
+
             return View();
         }
 
@@ -94,7 +97,7 @@ namespace PortalSend.Controllers
             };
         }
 
-        public JsonResult EnviarSMSMasivo(string Mensaje, string Lote )
+        public JsonResult EnviarSMSMasivo(string Mensaje, string Lote, string reporte, string Port )
         {
 
             List<Resultados_Models> ListarR = new List<Resultados_Models>();
@@ -108,6 +111,11 @@ namespace PortalSend.Controllers
                 ListarM = new Contactos_Models().SelectContactos(Lote);
                 string _loteenvio = DateTime.Now.ToString("yyMMdd-HHmmss");
                 int i=0;
+
+                //Acuse de inicio
+                SynWayAPI_models.EnvioSMS(SynWayAPI_models.Envios_Types.SendSMS,reporte , Port, DateTime.Now.ToString("dd/MM/yy HH:mm:ss")+" Iniciado:"+ListarM.Count+" items a enviar");
+
+                //Envios
                 foreach (Contactos_Models item in ListarM)
                 {
                     M = new Mensajes_Models();
@@ -125,6 +133,7 @@ namespace PortalSend.Controllers
                     M.men_phone = item.con_phone;
                     M.men_taskid = 0;
 
+                 
 
                     try
                     {
@@ -141,8 +150,8 @@ namespace PortalSend.Controllers
                         */
 
                         R = new Resultados_Models();
-                        R.res_id = int.Parse(BackgroundJob.Schedule(() => SynWayAPI_models.EnvioSMS(SynWayAPI_models.Envios_Types.SendSMS, item.con_phone, "4", Mensaje)
-                         , TimeSpan.FromMinutes(i)));
+                        R.res_id = int.Parse(BackgroundJob.Schedule(() => SynWayAPI_models.EnvioSMS(SynWayAPI_models.Envios_Types.SendSMS, item.con_phone, Port, Mensaje)
+                         , TimeSpan.FromSeconds(10)));
                         i++;
                         R.res_mensaje = "Se ha creado la tarea:" + R.res_id.ToString();
                         R.res_contenido= new ReturnValue() { content = "Envio:" + _loteenvio, result = "OK" };
@@ -159,6 +168,10 @@ namespace PortalSend.Controllers
                     M.InsertUpdateMensajes(M);
                     ListarR.Add(R);
                 }
+
+                //Acuse de envio realizado
+                BackgroundJob.Schedule(() => SynWayAPI_models.EnvioSMS(SynWayAPI_models.Envios_Types.SendSMS, reporte, Port, DateTime.Now.ToString("dd/MM/yy HH:mm:ss") + " Envio finalizado:" + ListarM.Count + " items")
+                         , TimeSpan.FromSeconds(i));
 
             }
             catch (Exception ex)

@@ -40,6 +40,18 @@
           <Property Name="tem_titulo" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="tem_cuerpo" Type="varchar" MaxLength="300" Nullable="false" />
         </EntityType>
+        <EntityType Name="Job">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StateId" Type="bigint" />
+          <Property Name="StateName" Type="nvarchar" MaxLength="20" />
+          <Property Name="InvocationData" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Arguments" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="ExpireAt" Type="datetime" />
+        </EntityType>
         <Association Name="FK_Mensajes_Contactos">
           <End Role="Contactos" Type="Self.Contactos" Multiplicity="1" />
           <End Role="Mensajes" Type="Self.Mensajes" Multiplicity="*" />
@@ -56,6 +68,7 @@
           <EntitySet Name="Contactos" EntityType="Self.Contactos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Mensajes" EntityType="Self.Mensajes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Templates" EntityType="Self.Templates" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Job" EntityType="Self.Job" Schema="HangFire" store:Type="Tables" />
           <AssociationSet Name="FK_Mensajes_Contactos" Association="Self.FK_Mensajes_Contactos">
             <End Role="Contactos" EntitySet="Contactos" />
             <End Role="Mensajes" EntitySet="Mensajes" />
@@ -73,6 +86,7 @@
             <End Role="Contactos" EntitySet="Contactos" />
             <End Role="Mensajes" EntitySet="Mensajes" />
           </AssociationSet>
+          <EntitySet Name="Job" EntityType="PortalSend_Model.Job" />
         </EntityContainer>
         <EntityType Name="Contactos">
           <Key>
@@ -123,6 +137,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Job">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StateId" Type="Int64" />
+          <Property Name="StateName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="InvocationData" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Arguments" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ExpireAt" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -164,6 +190,19 @@
                 <ScalarProperty Name="men_fecha" ColumnName="men_fecha" />
                 <ScalarProperty Name="men_phone" ColumnName="men_phone" />
                 <ScalarProperty Name="men_id" ColumnName="men_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Job">
+            <EntityTypeMapping TypeName="PortalSend_Model.Job">
+              <MappingFragment StoreEntitySet="Job">
+                <ScalarProperty Name="ExpireAt" ColumnName="ExpireAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Arguments" ColumnName="Arguments" />
+                <ScalarProperty Name="InvocationData" ColumnName="InvocationData" />
+                <ScalarProperty Name="StateName" ColumnName="StateName" />
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
