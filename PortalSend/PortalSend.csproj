@@ -440,11 +440,8 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
-    <Content Include="Scripts\web\demo.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="test.txt" />
-    <Content Include="Scripts\web\demo.js.map" />
-    <Content Include="TypeScripts\tsconfig.json" />
     <None Include="Views\FileUpload\SubirArchivo.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -493,6 +490,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Files\" />
+    <Folder Include="Scripts\web\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
@@ -500,7 +498,6 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
-    <TypeScriptCompile Include="TypeScripts\demo.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
