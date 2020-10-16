@@ -48,6 +48,34 @@ namespace PortalSend.Controllers
         }
 
 
+        public ActionResult Inbox()
+        {
+            return View();
+        }
+
+
+        public JsonResult ListarInbox()
+        {
+            List<Inbox_Models> ListarL = new List<Inbox_Models>();
+            try
+            {
+                ListarL = new Inbox_Models().GetInbox();
+
+            }
+            catch (Exception ex)
+            {
+                ListarL.Add(new Inbox_Models() { id = -1, content = ex.Message });
+            }
+
+            return new JsonResult
+            {
+                ContentType = "application/json",
+                Data = ListarL,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                MaxJsonLength = Int32.MaxValue
+            };
+        }
+
 
     }
 }

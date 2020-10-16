@@ -29,6 +29,7 @@ namespace PortalSend.Models
             {
                 query = (from q in _conexion.Mensajes where q.men_fechamodif >= _fechadesde && q.men_fechamodif <= _fechahasta
                          join j in _conexion.Job on q.men_taskid equals j.Id into qj from menjos in qj.DefaultIfEmpty()
+                         where menjos.Id >0
                          orderby q.men_id descending
                          
                          select new Reporte_Envios_Models {

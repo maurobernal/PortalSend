@@ -23,8 +23,8 @@
                 <button id="Btn_Cargar" type="button" class="btn btn-info">Cargar lotes</button>
             </div>
         </div>
-        <div class="row">
-            <div id="Pager_Lotes" class="k-pager-wrap"></div>
+        <div class="row mb-2">
+            <div id="Pager_Lotes" class="pager-view"></div>
         </div>
         <div class="row">
             <div id="List_Lotes"></div>
@@ -43,8 +43,8 @@
         $("#Btn_Cargar").click(function () { CargarLotes() });
 
                 var date = new Date();
-                $("#DTP_FechaDesde").data("kendoDatePicker").value(new Date(date.getFullYear(), date.getMonth(), 1));
-                $("#DTP_FechaHasta").data("kendoDatePicker").value(new Date(date.getFullYear(), date.getMonth() + 1, 0));
+                $("#DTP_FechaDesde").data("kendoDatePicker").value(new Date());
+                $("#DTP_FechaHasta").data("kendoDatePicker").value(new Date());
 
                  
         dataSource = new kendo.data.DataSource({
@@ -157,6 +157,11 @@
             width:500px;
             height: 50px;
         }
+
+    .pager-view {
+        width: 100%;
+        
+    }
    
       
        

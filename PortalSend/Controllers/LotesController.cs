@@ -53,13 +53,13 @@ namespace PortalSend.Controllers
             List<ResultadoCRUD_Models> ListR = new List<ResultadoCRUD_Models>();
             try
             {
-                ListarL = new Contactos_Models().SelectContactos(Lote);
-                foreach (Contactos_Models item in ListarL)
-                {
+
+
+                
                     R = new ResultadoCRUD_Models();
-                    R=new Contactos_Models().DeleteContactos(item);
+                    R=new Contactos_Models().DeleteContactosByLote(Lote);
                     ListR.Add(R);
-                }
+                
 
             }
             catch (Exception ex)

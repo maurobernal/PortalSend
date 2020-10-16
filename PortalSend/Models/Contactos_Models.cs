@@ -186,8 +186,34 @@ namespace PortalSend.Models
 
         }
 
+        public ResultadoCRUD_Models DeleteContactosByLote(string Lote)
+        {
+            ResultadoCRUD_Models R = new ResultadoCRUD_Models();
+            R.res_metodo = "Contactos.DeleteContactos";
+            try
+            {
+                //DELETE
+                _conexion.Contactos.RemoveRange(_conexion.Contactos.Where(w => w.con_lote == Lote));
+                 _conexion.SaveChanges();
+                R.res_id = "1";
+                    R.res_observacion = "DELETE";
+                
 
-        
+                return R;
+            }
+            catch (Exception ex)
+            {
+                R.res_cantidad = -1;
+                R.res_observacion = "ERROR:" + ex.Message;
+                R.res_excepcion = (ex.InnerException == null) ? "" : ex.InnerException.ToString();
+                return R;
+            }
+
+
+        }
+
+
+
 
 
 

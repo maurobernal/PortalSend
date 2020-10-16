@@ -14,12 +14,14 @@ namespace PortalSend.Models
         private static string _PassName = ConfigurationManager.AppSettings["userPass"].ToString();
         private static string _UrlBase = ConfigurationManager.AppSettings["baseUrl"].ToString();
         private static string _PortDefault = ConfigurationManager.AppSettings["portdefault"].ToString();
+        private static string _Time = ConfigurationManager.AppSettings["timeseconds"].ToString();
         private static string _TelReporte = ConfigurationManager.AppSettings["reporte"].ToString();
         public string User_Name { get; set; }
         public string Pass_Name { get; set; }
         public string URL_Base { get; set; }
         public string Port_Default { get; set; }
         public string Tel_Reporte { get; set; }
+        public string Times { get; set; }
         public Chiperas_Configuration_Models()
         {
             User_Name = _UserName;
@@ -27,6 +29,7 @@ namespace PortalSend.Models
             URL_Base = _UrlBase;
             Port_Default = _PortDefault;
             Tel_Reporte = _TelReporte;
+            Times = _Time;
         }
     }
 }

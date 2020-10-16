@@ -97,7 +97,7 @@ namespace PortalSend.Controllers
             };
         }
 
-        public JsonResult EnviarSMSMasivo(string Mensaje, string Lote, string reporte, string Port )
+        public JsonResult EnviarSMSMasivo(string Mensaje, string Lote, string reporte, string Port, string Times )
         {
 
             List<Resultados_Models> ListarR = new List<Resultados_Models>();
@@ -111,9 +111,11 @@ namespace PortalSend.Controllers
                 ListarM = new Contactos_Models().SelectContactos(Lote);
                 string _loteenvio = DateTime.Now.ToString("yyMMdd-HHmmss");
                 int i=0;
+                int _Times = 10;
+                 int.TryParse(Times, out _Times);
 
                 //Acuse de inicio
-                SynWayAPI_models.EnvioSMS(SynWayAPI_models.Envios_Types.SendSMS,reporte , Port, DateTime.Now.ToString("dd/MM/yy HH:mm:ss")+" Iniciado:"+ListarM.Count+" items a enviar");
+                SynWayAPI_models.EnvioSMS(SynWayAPI_models.Envios_Types.SendSMS,reporte , Port, DateTime.Now.ToString("dd/MM/yy HH:mm:ss")+" Iniciado:"+ListarM.Count+" items."+ "Envio: " + _loteenvio + " Segs:" + _Times + " Puerto:" + Port.ToString());
 
                 //Envios
                 foreach (Contactos_Models item in ListarM)
@@ -151,10 +153,10 @@ namespace PortalSend.Controllers
 
                         R = new Resultados_Models();
                         R.res_id = int.Parse(BackgroundJob.Schedule(() => SynWayAPI_models.EnvioSMS(SynWayAPI_models.Envios_Types.SendSMS, item.con_phone, Port, Mensaje)
-                         , TimeSpan.FromSeconds(10)));
+                         , TimeSpan.FromSeconds(_Times)));
                         i++;
                         R.res_mensaje = "Se ha creado la tarea:" + R.res_id.ToString();
-                        R.res_contenido= new ReturnValue() { content = "Envio:" + _loteenvio, result = "OK" };
+                        R.res_contenido= new ReturnValue() { content = "Envio: " + _loteenvio + " Segs:" + _Times + " Puerto:" + Port.ToString(), result = "OK" };
                         M.men_estado = "Creado";
                         M.men_taskid = R.res_id;
                         
@@ -170,7 +172,7 @@ namespace PortalSend.Controllers
                 }
 
                 //Acuse de envio realizado
-                BackgroundJob.Schedule(() => SynWayAPI_models.EnvioSMS(SynWayAPI_models.Envios_Types.SendSMS, reporte, Port, DateTime.Now.ToString("dd/MM/yy HH:mm:ss") + " Envio finalizado:" + ListarM.Count + " items")
+                BackgroundJob.Schedule(() => SynWayAPI_models.EnvioSMS(SynWayAPI_models.Envios_Types.SendSMS, reporte, Port, DateTime.Now.ToString("dd/MM/yy HH:mm:ss") + " Envio finalizado:" + ListarM.Count + " items" + "Envio: " + _loteenvio + " Segs:" + _Times + " Puerto:" + Port.ToString())
                          , TimeSpan.FromSeconds(i));
 
             }

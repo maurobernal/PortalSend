@@ -37,6 +37,7 @@
                     <div class="col p-0 text-center">
                         <label>Reporte:</label> <input name="signinPassword" type="text" id="Tbx_Reporte" value="@C.Tel_Reporte" placeholder="User" />
                         <label>Port:</label> <input name="signinPassword" type="number" id="Tbx_Port" value="@C.Port_Default" placeholder="Puerto" />
+                        <label>Tiempo(segs):</label> <input name="signinPassword" type="number" id="Tbx_Times" value="@C.Times" placeholder="Tiempo (segs)" />
                     </div>
                 </li>
 
@@ -145,6 +146,7 @@
                 Lote: '@ViewData["Lote"]',
                 Reporte: $('#Tbx_Reporte').val(),
                 Port: $('#Tbx_Port').val(),
+                Times: $('#Tbx_Times').val(),
 
 
             },

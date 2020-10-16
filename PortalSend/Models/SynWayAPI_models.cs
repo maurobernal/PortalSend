@@ -46,6 +46,11 @@ namespace PortalSend.Models
                      parseContent = "{\"event\":\"getDetailPortInfo\"}";
                     break;
 
+                case Consultas_Types.GetInbox:
+                    // Obtaining Detailed Port Information
+                    parseContent = "{\"event\":\"queryrxsms\"}";
+                    break;
+
                     /*
                 case Consultas_Types.GetTaskState:
                     //Obtaining estado del la tarea
@@ -86,7 +91,8 @@ namespace PortalSend.Models
             GetWirelessinfo=2,
             GetDetailPortInfo=3,
             GetTaskState = 4,
-            GetPortInfoMore = 5
+            GetPortInfoMore = 5,
+            GetInbox = 6
         }
 
         public enum Envios_Types : ushort

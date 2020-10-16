@@ -1,0 +1,122 @@
+﻿
+@{
+    ViewBag.Title = "Inboxs";
+}
+
+
+
+<section id="Index" class="about">
+    <div class="container">
+        <div class="row">
+            <h2>Inbox</h2>
+        </div>
+        <div class="row">
+            <div class="col p-2">
+                <button id="Btn_Cargar" type="button" class="btn btn-info">Cargar Inbox</button>
+            </div>
+        </div>
+        <div class="row mb-2 text-center">
+            <div id="Pager_Inbox" class="pager-view" ></div>
+        </div>
+        <div class="row mb-5">
+            <div id="List_Inbox"></div>
+        </div>
+
+    </div>
+</section>
+
+
+
+<script>
+    $(document).ready(function () {
+
+        $("#Btn_Cargar").click(function () { CargarInbox() });
+
+
+        dataSource = new kendo.data.DataSource({
+            pageSize: 50,
+            transport: {
+                read: {
+                    url: '@Url.Action("ListarInbox", "Reporte")',
+                    dataType: "json",
+                },
+
+            },
+
+             schema: {
+                model: {
+                    id: "id",
+                    fields: {
+                        content: "content",
+                    }
+                }
+            }
+        });
+
+
+        $("#List_Inbox").kendoListView({
+            dataSource: dataSource,
+            selectable: "single",
+            template: kendo.template($("#template").html()),
+            altTemplate: kendo.template($("#template2").html()),
+        });
+
+        $("#Pager_Inbox").kendoPager({
+            dataSource: dataSource
+        });
+    });
+
+
+
+    function CargarInbox() {
+        dataSource.read();
+      };
+
+
+
+</script>
+
+
+
+
+
+<script type="text/x-kendo-tmpl" id="template">
+    <div class="row mb-2 p-2 product-view bg-light text-primary">
+          #= kendo.toString(replaceString(content))# 
+    </div>
+</script>
+<script type="text/x-kendo-tmpl" id="template2">
+    <div class="row mb-2 p-2 product-view bg-dark text-warning">
+        #= kendo.toString(replaceString(content))#
+    </div>
+</script>
+
+
+
+<style>
+    .k-listview-bordered {
+        width: 100%;
+        max-width: 800px;
+        border: none;
+    }
+
+    .product-view {
+        float: left;
+        margin-left: 10px;
+        width: 100%;
+        
+    }
+
+    .pager-view {
+        width: 100%;
+    }
+   
+</style>
+
+
+<script type="text/javascript">
+    function replaceString(value) {
+      //  return value.replace(":", "<br />");
+        return value.split(':').join('|').split('|').map((str) => { return "<div class='col'>" + str + "</div>" }).join(' ').replace('549','');
+    }
+</script>

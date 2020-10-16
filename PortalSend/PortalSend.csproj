@@ -25,7 +25,7 @@
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <TargetFrameworkProfile />
-    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>3.9</TypeScriptToolsVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
@@ -41,10 +41,10 @@
     <TypeScriptJSXEmit>React</TypeScriptJSXEmit>
     <TypeScriptModuleKind />
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
-    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptNoImplicitAny>True</TypeScriptNoImplicitAny>
     <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
     <TypeScriptOutFile />
-    <TypeScriptOutDir />
+    <TypeScriptOutDir>D:\VS\PortalSend\PortalSend\Scripts\web</TypeScriptOutDir>
     <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
     <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
     <TypeScriptSourceMap>True</TypeScriptSourceMap>
@@ -170,6 +170,7 @@
     </Compile>
     <Compile Include="Models\Chiperas_Configuration_Models.cs" />
     <Compile Include="Models\HangFire_Models.cs" />
+    <Compile Include="Models\Inbox_Models.cs" />
     <Compile Include="Models\LogFailureAttribute.cs" />
     <Compile Include="Models\Lotes_Models.cs" />
     <Compile Include="Models\Contactos_Models.cs" />
@@ -351,6 +352,8 @@
       <DependentUpon>PORTALSEND_Models.edmx</DependentUpon>
     </Content>
     <Content Include="Scripts\dropzone\dropzone.js.map" />
+    <None Include="Properties\PublishProfiles\Codeme.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\IISProfile.pubxml" />
     <Content Include="Scripts\bootstrap.min.js.map" />
     <Content Include="Scripts\bootstrap.js.map" />
@@ -437,8 +440,11 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Scripts\web\demo.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="test.txt" />
+    <Content Include="Scripts\web\demo.js.map" />
+    <Content Include="TypeScripts\tsconfig.json" />
     <None Include="Views\FileUpload\SubirArchivo.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -483,6 +489,7 @@
     <Content Include="webfonts\fa-brands-400.woff" />
     <Content Include="webfonts\fa-brands-400.ttf" />
     <Content Include="webfonts\fa-brands-400.eot" />
+    <Content Include="Views\Reporte\Inbox.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Files\" />
@@ -493,6 +500,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
+    <TypeScriptCompile Include="TypeScripts\demo.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
