@@ -152,6 +152,19 @@ namespace PortalSend.Controllers
                         //ID de Tarea
                         R.res_id = int.Parse(BackgroundJob.Schedule(() => Mensajes_Models.EnviarSMS(item.con_phone, Port, Mensaje, M.men_id), TimeSpan.FromSeconds(_Times)));
                         i++;
+                       
+                        //guardo el número de tarea
+                        M.men_taskid = R.res_id;
+                        rm = new ResultadoCRUD_Models();
+                        rm=M.InsertUpdateMensajes(M);
+                        if (rm.res_cantidad == -1)
+                        {
+                            R = new Resultados_Models();
+                            R.res_mensaje = "ERROR al crear el mensaje el la BD:" + rm.res_excepcion;
+                            R.res_excepcion = "-1";
+                            ListarR.Add(R);
+                        }
+
 
 
                         R.res_mensaje = "Se ha creado la tarea:" + R.res_id.ToString();
