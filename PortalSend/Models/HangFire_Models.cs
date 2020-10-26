@@ -35,7 +35,7 @@ namespace PortalSend.Models
                    QueuePollInterval = TimeSpan.Zero,
                    UseRecommendedIsolationLevel = true,
                    UsePageLocksOnDequeue = true,
-                   DisableGlobalLocks = true
+                   DisableGlobalLocks = true,
                }).WithJobExpirationTimeout(TimeSpan.FromHours(6))
                 .UseFilter(new LogFailureAttribute())
 

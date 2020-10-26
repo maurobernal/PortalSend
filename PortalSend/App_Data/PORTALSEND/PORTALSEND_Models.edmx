@@ -31,6 +31,7 @@
           <Property Name="men_lote" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="men_enviolote" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="men_taskid" Type="int" Nullable="false" />
+          <Property Name="men_resultado" Type="varchar" MaxLength="400" />
         </EntityType>
         <EntityType Name="Templates">
           <Key>
@@ -124,6 +125,7 @@
           <Property Name="men_enviolote" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="men_taskid" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Contactos" Relationship="PortalSend_Model.FK_Mensajes_Contactos" FromRole="Mensajes" ToRole="Contactos" />
+          <Property Name="men_resultado" Type="String" MaxLength="400" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_Mensajes_Contactos">
           <End Type="PortalSend_Model.Contactos" Role="Contactos" Multiplicity="1" />
@@ -179,6 +181,7 @@
           <EntitySetMapping Name="Mensajes">
             <EntityTypeMapping TypeName="PortalSend_Model.Mensajes">
               <MappingFragment StoreEntitySet="Mensajes">
+                <ScalarProperty Name="men_resultado" ColumnName="men_resultado" />
                 <ScalarProperty Name="men_taskid" ColumnName="men_taskid" />
                 <ScalarProperty Name="men_enviolote" ColumnName="men_enviolote" />
                 <ScalarProperty Name="men_lote" ColumnName="men_lote" />

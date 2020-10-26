@@ -146,7 +146,10 @@ namespace PortalSend.Models
                 else
                 {
                     R.res_mensaje = "NOOK";
-                    R.res_contenido = JsonConvert.DeserializeObject<ReturnValue>(response.Content);
+                    ReturnValue rv= JsonConvert.DeserializeObject<ReturnValue>(response.Content);
+                    if (rv == null) rv=new ReturnValue();
+                    rv.content += Environment.NewLine + response.ErrorMessage;
+                    R.res_contenido = rv;
                     R.res_cantidad = -1;
 
                 }

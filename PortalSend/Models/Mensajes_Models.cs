@@ -21,7 +21,7 @@ namespace PortalSend.Models
         public string men_enviolote { get; set; }
         public int mencon_id { get; set; }
         public int men_taskid { get; set; }
-
+        public string men_resultado { get; set; }
 
         //SELECT Mensajes
         public List<Mensajes_Models> SelectMensajes()
@@ -47,6 +47,7 @@ namespace PortalSend.Models
                              men_cant=q.men_cant,
                              men_fechamodif=q.men_fechamodif,
                              men_lote=q.men_lote,
+                             men_resultado=q.men_resultado
                            
                          }
 
@@ -89,10 +90,57 @@ namespace PortalSend.Models
                              men_cant = q.men_cant,
                              men_fechamodif = q.men_fechamodif,
                              men_lote = q.men_lote,
+                             men_resultado = q.men_resultado
 
                          }
 
                     ).FirstOrDefault();
+
+                return query;
+
+            }
+            catch (Exception ex)
+            {
+                Mensajes_Models M = new Mensajes_Models();
+                M.men_taskid = -1;
+                M.men_estado = "ERROR";
+                M.men_cuerpo = "ERROR:" + ex.Message;
+                return M;
+            }
+
+
+
+        }
+
+        public Mensajes_Models SelectMensajexID(int men_id)
+        {
+
+            try
+            {
+                Mensajes_Models query = (from q in _conexion.Mensajes
+                                         where q.men_id == men_id
+                                         orderby q.men_fecha descending
+                                         //join
+                                         //order
+                                         //where
+                                         select new Mensajes_Models
+                                         {
+                                             men_id = q.men_id,
+                                             men_phone = q.men_phone,
+                                             men_fecha = q.men_fecha,
+                                             men_estado = q.men_estado,
+                                             men_cuerpo = q.men_cuerpo,
+                                             men_enviolote = q.men_enviolote,
+                                             mencon_id = q.mencon_id,
+                                             men_taskid = q.men_taskid,
+                                             men_cant = q.men_cant,
+                                             men_fechamodif = q.men_fechamodif,
+                                             men_lote = q.men_lote,
+                                             men_resultado = q.men_resultado
+
+                                         }
+
+                     ).FirstOrDefault();
 
                 return query;
 
@@ -133,6 +181,7 @@ namespace PortalSend.Models
                              men_enviolote = q.men_enviolote,
                              mencon_id = q.mencon_id,
                              men_taskid = q.men_taskid,
+                             men_resultado = q.men_resultado
 
                          }
 
@@ -181,6 +230,7 @@ namespace PortalSend.Models
                 m.men_enviolote = M.men_enviolote;
                 m.mencon_id = M.mencon_id;
                 m.men_taskid = M.men_taskid;
+                m.men_resultado = M.men_resultado;
                 
                 if (insert) _conexion.Mensajes.Add(m); //Solo si es insert
                 if (insert) R.res_metodo = "Mensajes.UpdateMensajes"; //Solo si es insert
@@ -206,8 +256,6 @@ namespace PortalSend.Models
 
         }
 
-        
-        
         //DELETE
         public ResultadoCRUD_Models DeleteMensajes(Mensajes_Models M)
         {
@@ -251,7 +299,26 @@ namespace PortalSend.Models
         }
 
 
-        
+        // SMS Envio
+
+        public static Resultados_Models EnviarSMS(string phone, string port, string mensaje, int men_id=0)
+        {
+
+
+            Resultados_Models R= SynWayAPI_models.EnvioSMS(SynWayAPI_models.Envios_Types.SendSMS, phone, port, mensaje);
+            if (men_id>0)
+            {
+                Mensajes_Models M = new Mensajes_Models().SelectMensajexID(men_id);
+                M.men_resultado = R.res_cantidad + ":" + "["+ R.res_contenido.result +"]" + R.res_contenido.content;
+                M.InsertUpdateMensajes(M);
+            }
+            return R;
+
+
+        }
+
+
+
 
 
 

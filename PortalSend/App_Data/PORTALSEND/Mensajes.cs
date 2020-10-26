@@ -25,6 +25,7 @@ namespace PortalSend.App_Data.PORTALSEND
         public string men_lote { get; set; }
         public string men_enviolote { get; set; }
         public int men_taskid { get; set; }
+        public string men_resultado { get; set; }
     
         public virtual Contactos Contactos { get; set; }
     }

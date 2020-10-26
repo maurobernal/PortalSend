@@ -19,6 +19,8 @@ namespace PortalSend.Models
         public DateTime men_fechamodif { get; set; }
         public string men_cuerpo { get; set; }
         public string men_phone { get; set; }
+        public string men_resultado { get; set; }
+
 
         public List<Reporte_Envios_Models> SelectMensajesEnviados(DateTime _fechadesde, DateTime _fechahasta)
         {
@@ -40,6 +42,8 @@ namespace PortalSend.Models
                          men_fechamodif=q.men_fechamodif,
                          men_cuerpo=q.men_cuerpo,
                          men_phone=q.men_phone,
+                         men_resultado=q.men_resultado
+
                          
                          }).ToList();
                       
